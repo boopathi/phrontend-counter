@@ -9,11 +9,10 @@
     "watch": "watchify -t babelify index.js --debug -o bundle.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "boopathi",
   "license": "ISC",
   "dependencies": {
-    "react": "^0.13.3",
-    "react-router": "^0.13.3"
+    "react": "^0.13.3"
   },
   "devDependencies": {
     "babelify": "^6.1.3",
