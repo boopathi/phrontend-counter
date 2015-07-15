@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "browserify -t babelify index.js --debug > bundle.js",
+    "gh-pages": "NODE_ENV=production browserify -t babelify -t envify -t uglifyify index.js -o bundle.js",
     "watch": "watchify -t babelify index.js --debug -o bundle.js"
   },
   "keywords": [],
@@ -17,6 +18,8 @@
   "devDependencies": {
     "babelify": "^6.1.3",
     "browserify": "^10.2.6",
+    "envify": "^3.4.0",
+    "uglifyify": "^3.0.1",
     "watchify": "^3.2.3"
   }
 }
