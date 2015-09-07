@@ -7,7 +7,7 @@
   "scripts": {
     "build": "browserify -t babelify index.js --debug > bundle.js",
     "gh-pages": "NODE_ENV=production browserify -t babelify -t envify -t uglifyify index.js -o bundle.js",
-    "watch": "watchify -t babelify index.js --debug -o bundle.js"
+    "watch": "watchify -t babelify index.js --debug -o bundle.js -v"
   },
   "keywords": [],
   "author": "boopathi",
