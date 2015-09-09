@@ -9,16 +9,7 @@ const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
 let increment = data => Dispatcher.dispatch(INCREMENT_COUNTER, data);
 let decrement = data => Dispatcher.dispatch(DECREMENT_COUNTER, data);
 
-// Define the state of the counter
-let CounterState = State.extend({
-  props: {
-    count: 'number'
-  }
-});
-
-// and create your flux store
-let CounterStore = Store.create({
-  state: CounterState,
+class CounterStore extends Store {
   handler(payload) {
     // handle initial state
     if (!this.get('count')) this.set('count', 0);
@@ -37,6 +28,10 @@ let CounterStore = Store.create({
       this.emitChange();
     }
   }
+}
+
+let counterStore = new CounterStore({
+  count: 0
 });
 
 class Counter extends React.Component {
@@ -51,20 +46,20 @@ class Counter extends React.Component {
   componentDidMount() {
     // subscribe to the change events published by the store this view
     // wants to listen to
-    CounterStore.subscribe(this.handleChange.bind(this));
+    counterStore.subscribe(this.handleChange.bind(this));
   }
   // and when the component will be remove
   componentWillUnmount() {
     // cleanup
     // unsubscribe from the store
-    CounterStore.unsubscribe(this.handleChange.bind(this));
+    counterStore.unsubscribe(this.handleChange.bind(this));
   }
   // handle the change emitted by the store
   handleChange() {
     // change count obtained from the store
     this.setState({
       // .get is synchronous
-      count: CounterStore.get('count')
+      count: counterStore.get('count')
     });
   }
   handleStepChange(e) {
