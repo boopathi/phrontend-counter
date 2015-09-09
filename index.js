@@ -6,14 +6,11 @@ const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
 const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
 
 // Define action creators
-let increment = data => Dispatcher.dispatch(INCREMENT_COUNTER, data);
-let decrement = data => Dispatcher.dispatch(DECREMENT_COUNTER, data);
+let increment = step => Dispatcher.dispatch(INCREMENT_COUNTER, step);
+let decrement = step => Dispatcher.dispatch(DECREMENT_COUNTER, step);
 
 class CounterStore extends Store {
   handler(payload) {
-    // handle initial state
-    if (!this.get('count')) this.set('count', 0);
-    // this function will be executed in the context of the state's instance
     switch(payload.actionType) {
       case INCREMENT_COUNTER:
       // increment the counter to the absolute value of the data sent
@@ -30,29 +27,33 @@ class CounterStore extends Store {
   }
 }
 
-let counterStore = new CounterStore({
+const initialState = {
   count: 0
-});
+};
+
+let counterStore = new CounterStore(initialState);
 
 class Counter extends React.Component {
   constructor(...args) {
     super(...args);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleStepChange = this.handleStepChange.bind(this);
     this.state = {
       step: 1,
       count: 0,
-    }
+    };
   }
   // when the component mounts
   componentDidMount() {
     // subscribe to the change events published by the store this view
     // wants to listen to
-    counterStore.subscribe(this.handleChange.bind(this));
+    counterStore.subscribe(this.handleChange);
   }
   // and when the component will be remove
   componentWillUnmount() {
     // cleanup
     // unsubscribe from the store
-    counterStore.unsubscribe(this.handleChange.bind(this));
+    counterStore.unsubscribe(this.handleChange);
   }
   // handle the change emitted by the store
   handleChange() {
@@ -68,14 +69,6 @@ class Counter extends React.Component {
       step: e.target.value ? parseInt(e.target.value) : 0
     });
   }
-  increment() {
-    // call the increment action creator
-    increment(this.state.step);
-  }
-  decrement() {
-    // call the decrement action creator
-    decrement(this.state.step);
-  }
   render() {
     let buttonStyle = {
       margin: 5,
@@ -84,10 +77,10 @@ class Counter extends React.Component {
     return <div>
       Current Value: {this.state.count}
       <div>
-        <button style={buttonStyle} onClick={this.decrement.bind(this)}>-</button>
-        <button style={buttonStyle} onClick={this.increment.bind(this)}>+</button>
+        <button style={buttonStyle} onClick={decrement.bind(null, this.state.step)}>-</button>
+        <button style={buttonStyle} onClick={increment.bind(null, this.state.step)}>+</button>
       </div>
-      <div>Step : <input onChange={this.handleStepChange.bind(this)} value={this.state.step}/></div>
+      <div>Step : <input onChange={this.handleStepChange} value={this.state.step}/></div>
     </div>;
   }
 }
