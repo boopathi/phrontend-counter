@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Dispatcher, State, Store} from 'phrontend';
 
 // Define action types
@@ -18,6 +19,7 @@ class CounterStore extends Store {
       // and emit the change event for the subscribers (views) to update themselves
       this.emitChange();
       break;
+
       case DECREMENT_COUNTER:
       // decrement
       this.set('count', this.get('count') - payload.data);
@@ -33,6 +35,12 @@ const initialState = {
 
 let counterStore = new CounterStore(initialState);
 
+// Dumb Components
+let CurrentValue = ({val}) => <div>
+  Current Value: {val}
+</div>;
+
+// Smart Component / Container
 class Counter extends React.Component {
   constructor(...args) {
     super(...args);
@@ -75,7 +83,7 @@ class Counter extends React.Component {
       fontSize: 20,
     };
     return <div>
-      Current Value: {this.state.count}
+      <CurrentValue val={this.state.count} />
       <div>
         <button style={buttonStyle} onClick={decrement.bind(null, this.state.step)}>-</button>
         <button style={buttonStyle} onClick={increment.bind(null, this.state.step)}>+</button>
@@ -86,5 +94,5 @@ class Counter extends React.Component {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
-  React.render(<Counter/>, document.getElementById('counter-container'));
+  ReactDOM.render(<Counter/>, document.getElementById('counter-container'));
 });

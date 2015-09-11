@@ -14,8 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "phrontend": "0.1.0-alpha",
-    "react": "^0.13.3",
-    "react-router": "^0.13.3"
+    "react": "^0.14.0-rc1",
+    "react-dom": "^0.14.0-rc1"
   },
   "devDependencies": {
     "babelify": "^6.1.3",
