@@ -1,5 +1,7 @@
 # counter
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/boopathi/phrontend-counter.svg)](https://greenkeeper.io/)
+
 An example for [phrontend](https://github.com/flipkart-incubator/phrontend)
 
 ## Dependencies
